@@ -2,7 +2,6 @@ state = "state/dealradar.sqlite3"
 channels = ["telegram"] # or ["discord"], or both
 
 [policy]
-# Block scam/gray-market resale portals and unverified storefronts
 blocked_domains = [
   "culturecircle.com",
   "culture-circle.com",
@@ -12,119 +11,111 @@ blocked_domains = [
   "aliexpress.com"
 ]
 
-# Physical Goods: Watches, Phones & Electronics
+# Physical Goods
 # -----------------------------------------------------------
-
-# Casio Enthusiast / Everyday Models
-[[watch.shopping]]
+[[shopping]]
 id = "casio-watch"
 name = "Casio Watch"
 query = "Casio watch"
 target_price = 4500
 currency = "INR"
 
-[[watch.shopping]]
+[[shopping]]
 id = "casio-gshock-2100"
 name = "Casio G-Shock GA-2100"
 query = "Casio GA-2100"
 target_price = 6500
 currency = "INR"
 
-[[watch.shopping]]
+[[shopping]]
 id = "casio-edifice"
 name = "Casio Edifice"
 query = "Casio Edifice chronograph"
 target_price = 7000
 currency = "INR"
 
-# Timex Marlin Range
-[[watch.shopping]]
+[[shopping]]
 id = "timex-marlin"
 name = "Timex Marlin"
 query = "Timex Marlin watch"
 target_price = 12000
 currency = "INR"
 
-[[watch.shopping]]
+[[shopping]]
 id = "timex-marlin-automatic"
 name = "Timex Marlin Automatic"
 query = "Timex Marlin automatic watch"
 target_price = 15000
 currency = "INR"
 
-# Entry & Mid-Tier Automatics (Seiko, Orient, Citizen)
-[[watch.shopping]]
+[[shopping]]
 id = "automatic-watches"
 name = "Automatic Watch Deal"
 query = "automatic watch men"
 target_price = 14000
 currency = "INR"
 
-[[watch.shopping]]
+[[shopping]]
 id = "seiko-5-automatic"
 name = "Seiko 5 Sports Automatic"
 query = "Seiko 5 Sports automatic"
 target_price = 18000
 currency = "INR"
 
-[[watch.shopping]]
+[[shopping]]
 id = "orient-bambino"
 name = "Orient Bambino Automatic"
 query = "Orient Bambino automatic"
 target_price = 16000
 currency = "INR"
 
-# iPhones
-[[watch.shopping]]
+[[shopping]]
 id = "iphone-17"
 name = "Apple iPhone 17"
 query = "iPhone 17"
 target_price = 72000
 currency = "INR"
 
-[[watch.shopping]]
+[[shopping]]
 id = "iphone-17e"
 name = "Apple iPhone 17e"
 query = "iPhone 17e"
 target_price = 52000
 currency = "INR"
 
-
-# Major Publisher Video Game Deals (Steam / Epic / GOG)
+# Digital Games
 # -----------------------------------------------------------
-
-# Sony PlayStation PC / FromSoftware / CDPR / Rockstar / Capcom
-[[watch.games]]
+[[games]]
 id = "elden-ring"
 name = "Elden Ring"
 target_price_usd = 34.99
 
-[[watch.games]]
+[[games]]
 id = "cyberpunk-2077"
 name = "Cyberpunk 2077"
 target_price_usd = 24.99
 
-[[watch.games]]
+[[games]]
 id = "god-of-war-ragnarok"
 name = "God of War Ragnarok"
 target_price_usd = 39.99
 
-[[watch.games]]
+[[games]]
 id = "red-dead-redemption-2"
 name = "Red Dead Redemption 2"
 target_price_usd = 19.99
 
-[[watch.games]]
+[[games]]
 id = "monster-hunter-wilds"
 name = "Monster Hunter Wilds"
 target_price_usd = 49.99
 
-[[watch.games]]
+[[games]]
 id = "resident-evil-4-remake"
 name = "Resident Evil 4"
 target_price_usd = 19.99
 
-[[watch.games]]
+[[games]]
 id = "cyberpunk-2077"
 name = "Cyberpunk 2077"
-target_price_usd = 99.00
+target_price_usd = 99.99
