@@ -123,3 +123,8 @@ target_price_usd = 49.99
 id = "resident-evil-4-remake"
 name = "Resident Evil 4"
 target_price_usd = 19.99
+
+[[watch.games]]
+id = "cyberpunk-2077"
+name = "Cyberpunk 2077"
+target_price_usd = 99.00
