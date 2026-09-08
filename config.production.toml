@@ -19,7 +19,7 @@ blocked_sellers = ["unverified seller", "unknown seller"]
 [[watches]]
 id = "casio-watch"
 category = "shopping"
-enabled = true
+enabled = false
 query = "Casio watch"
 titles = ["Casio"]
 currency = "INR"
@@ -38,7 +38,7 @@ merchants = [
 [[watches]]
 id = "casio-gshock-2100"
 category = "shopping"
-enabled = true
+enabled = false
 query = "Casio GA-2100"
 titles = ["Casio G-Shock GA-2100"]
 currency = "INR"
@@ -56,7 +56,7 @@ merchants = [
 [[watches]]
 id = "casio-edifice"
 category = "shopping"
-enabled = true
+enabled = false
 query = "Casio Edifice chronograph"
 titles = ["Casio Edifice"]
 currency = "INR"
@@ -74,7 +74,7 @@ merchants = [
 [[watches]]
 id = "timex-marlin"
 category = "shopping"
-enabled = true
+enabled = false
 query = "Timex Marlin"
 titles = ["Timex Marlin"]
 currency = "INR"
@@ -93,7 +93,7 @@ merchants = [
 [[watches]]
 id = "timex-marlin-automatic"
 category = "shopping"
-enabled = true
+enabled = false
 query = "Timex Marlin automatic"
 titles = ["Timex Marlin Automatic"]
 currency = "INR"
@@ -111,7 +111,7 @@ merchants = [
 [[watches]]
 id = "seiko-5-automatic"
 category = "shopping"
-enabled = true
+enabled = false
 query = "Seiko 5 Sports automatic"
 titles = ["Seiko 5"]
 currency = "INR"
@@ -129,7 +129,7 @@ merchants = [
 [[watches]]
 id = "orient-bambino"
 category = "shopping"
-enabled = true
+enabled = false
 query = "Orient Bambino automatic"
 titles = ["Orient Bambino"]
 currency = "INR"
@@ -150,7 +150,7 @@ merchants = [
 [[watches]]
 id = "iphone-17"
 category = "shopping"
-enabled = true
+enabled = false
 query = "iPhone 17"
 titles = ["Apple iPhone 17"]
 currency = "INR"
