@@ -1,0 +1,48 @@
+state = "state/dealradar.sqlite3"
+channels = ["telegram"] # or ["discord"], or both
+
+[policy]
+# Operator-maintained policy, NOT a claim that there is an exhaustive scam database.
+blocked_domains = ["scam.example", "untrusted-marketplace.example"]
+blocked_sellers = ["unverified seller", "unknown seller"]
+
+[[watches]]
+id = "sony-headphones"
+category = "shopping"
+enabled = false
+query = "Sony WH-1000XM5 Black"
+titles = ["Sony WH-1000XM5 Wireless Noise Cancelling Headphones Black"]
+currency = "INR"
+min_price = "15000"
+max_price = "22000"
+gl = "in"
+price_prefix = "₹"
+max_products = 5
+merchants = [{ seller = "Sony India", domain = "sony.co.in" }]
+# Replace with reviewed exact feed titles and merchant pairs. Broad marketplace approval is unsafe.
+
+[[watches]]
+id = "portal-two"
+category = "games"
+enabled = false
+game_id = "2" # Illustrative ID only. Resolve the correct ID before enabling.
+titles = ["Portal 2"] # A mismatched illustrative ID cannot pass this title check.
+currency = "USD"
+max_price = "5.00"
+stores = ["1"] # CheapShark store ID; verify its name using /stores.
+
+[[watches]]
+id = "blr-del"
+category = "flights"
+enabled = false
+origin = "BLR"
+destination = "DEL"
+departure = "2027-01-15"
+# return_date = "2027-01-20"
+adults = 1
+cabin = "ECONOMY"
+max_stops = 0
+carriers = ["AI"]
+currency = "INR"
+min_price = "1000"
+max_price = "6000"
