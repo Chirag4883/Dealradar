@@ -1,5 +1,5 @@
 state = "state/dealradar.sqlite3"
-channels = ["telegram"] # or ["discord"], or both
+channels = ["telegram"]
 
 [policy]
 blocked_domains = [
@@ -10,112 +10,213 @@ blocked_domains = [
   "dhgate.com",
   "aliexpress.com"
 ]
+blocked_sellers = ["unverified seller", "unknown seller"]
 
-# Physical Goods
 # -----------------------------------------------------------
-[[shopping]]
+# CASIO & AUTOMATIC WATCHES
+# -----------------------------------------------------------
+
+[[watches]]
 id = "casio-watch"
-name = "Casio Watch"
+category = "shopping"
+enabled = true
 query = "Casio watch"
-target_price = 4500
+titles = ["Casio"]
 currency = "INR"
+min_price = "1000"
+max_price = "4500"
+gl = "in"
+price_prefix = "₹"
+max_products = 5
+merchants = [
+  { seller = "Amazon.in", domain = "amazon.in" },
+  { seller = "Flipkart", domain = "flipkart.com" },
+  { seller = "Casio India Shop", domain = "casioindiashop.com" },
+  { seller = "Myntra", domain = "myntra.com" }
+]
 
-[[shopping]]
+[[watches]]
 id = "casio-gshock-2100"
-name = "Casio G-Shock GA-2100"
+category = "shopping"
+enabled = true
 query = "Casio GA-2100"
-target_price = 6500
+titles = ["Casio G-Shock GA-2100"]
 currency = "INR"
+min_price = "3000"
+max_price = "6500"
+gl = "in"
+price_prefix = "₹"
+max_products = 5
+merchants = [
+  { seller = "Amazon.in", domain = "amazon.in" },
+  { seller = "Flipkart", domain = "flipkart.com" },
+  { seller = "Casio India Shop", domain = "casioindiashop.com" }
+]
 
-[[shopping]]
+[[watches]]
 id = "casio-edifice"
-name = "Casio Edifice"
+category = "shopping"
+enabled = true
 query = "Casio Edifice chronograph"
-target_price = 7000
+titles = ["Casio Edifice"]
 currency = "INR"
+min_price = "3500"
+max_price = "7000"
+gl = "in"
+price_prefix = "₹"
+max_products = 5
+merchants = [
+  { seller = "Amazon.in", domain = "amazon.in" },
+  { seller = "Flipkart", domain = "flipkart.com" },
+  { seller = "Casio India Shop", domain = "casioindiashop.com" }
+]
 
-[[shopping]]
+[[watches]]
 id = "timex-marlin"
-name = "Timex Marlin"
-query = "Timex Marlin watch"
-target_price = 12000
+category = "shopping"
+enabled = true
+query = "Timex Marlin"
+titles = ["Timex Marlin"]
 currency = "INR"
+min_price = "5000"
+max_price = "12000"
+gl = "in"
+price_prefix = "₹"
+max_products = 5
+merchants = [
+  { seller = "Amazon.in", domain = "amazon.in" },
+  { seller = "Flipkart", domain = "flipkart.com" },
+  { seller = "Timex India", domain = "timexindia.com" },
+  { seller = "Tata CLiQ Luxury", domain = "luxury.tatacliq.com" }
+]
 
-[[shopping]]
+[[watches]]
 id = "timex-marlin-automatic"
-name = "Timex Marlin Automatic"
-query = "Timex Marlin automatic watch"
-target_price = 15000
+category = "shopping"
+enabled = true
+query = "Timex Marlin automatic"
+titles = ["Timex Marlin Automatic"]
 currency = "INR"
+min_price = "7000"
+max_price = "15000"
+gl = "in"
+price_prefix = "₹"
+max_products = 5
+merchants = [
+  { seller = "Amazon.in", domain = "amazon.in" },
+  { seller = "Timex India", domain = "timexindia.com" },
+  { seller = "Tata CLiQ Luxury", domain = "luxury.tatacliq.com" }
+]
 
-[[shopping]]
-id = "automatic-watches"
-name = "Automatic Watch Deal"
-query = "automatic watch men"
-target_price = 14000
-currency = "INR"
-
-[[shopping]]
+[[watches]]
 id = "seiko-5-automatic"
-name = "Seiko 5 Sports Automatic"
+category = "shopping"
+enabled = true
 query = "Seiko 5 Sports automatic"
-target_price = 18000
+titles = ["Seiko 5"]
 currency = "INR"
+min_price = "10000"
+max_price = "18000"
+gl = "in"
+price_prefix = "₹"
+max_products = 5
+merchants = [
+  { seller = "Amazon.in", domain = "amazon.in" },
+  { seller = "Ethos Watches", domain = "ethoswatches.com" },
+  { seller = "Tata CLiQ Luxury", domain = "luxury.tatacliq.com" }
+]
 
-[[shopping]]
+[[watches]]
 id = "orient-bambino"
-name = "Orient Bambino Automatic"
+category = "shopping"
+enabled = true
 query = "Orient Bambino automatic"
-target_price = 16000
+titles = ["Orient Bambino"]
 currency = "INR"
+min_price = "8000"
+max_price = "16000"
+gl = "in"
+price_prefix = "₹"
+max_products = 5
+merchants = [
+  { seller = "Amazon.in", domain = "amazon.in" },
+  { seller = "Orient Watch India", domain = "orientwatch.in" }
+]
 
-[[shopping]]
-id = "iphone-17"
-name = "Apple iPhone 17"
-query = "iPhone 17"
-target_price = 72000
-currency = "INR"
-
-[[shopping]]
-id = "iphone-17e"
-name = "Apple iPhone 17e"
-query = "iPhone 17e"
-target_price = 52000
-currency = "INR"
-
-# Digital Games
 # -----------------------------------------------------------
-[[games]]
+# PHONES (iPhones)
+# -----------------------------------------------------------
+
+[[watches]]
+id = "iphone-17"
+category = "shopping"
+enabled = true
+query = "iPhone 17"
+titles = ["Apple iPhone 17"]
+currency = "INR"
+min_price = "40000"
+max_price = "72000"
+gl = "in"
+price_prefix = "₹"
+max_products = 5
+merchants = [
+  { seller = "Amazon.in", domain = "amazon.in" },
+  { seller = "Flipkart", domain = "flipkart.com" },
+  { seller = "Apple India", domain = "apple.com" },
+  { seller = "Croma", domain = "croma.com" },
+  { seller = "Reliance Digital", domain = "reliancedigital.in" }
+]
+
+[[watches]]
+id = "iphone-17e"
+category = "shopping"
+enabled = true
+query = "iPhone 17e"
+titles = ["Apple iPhone 17e"]
+currency = "INR"
+min_price = "30000"
+max_price = "52000"
+gl = "in"
+price_prefix = "₹"
+max_products = 5
+merchants = [
+  { seller = "Amazon.in", domain = "amazon.in" },
+  { seller = "Flipkart", domain = "flipkart.com" },
+  { seller = "Apple India", domain = "apple.com" },
+  { seller = "Croma", domain = "croma.com" },
+  { seller = "Reliance Digital", domain = "reliancedigital.in" }
+]
+
+# -----------------------------------------------------------
+# VIDEO GAMES (Steam Store ID: 1)
+# -----------------------------------------------------------
+
+[[watches]]
+id = "cyberpunk-2077"
+category = "games"
+enabled = true
+game_id = "2077"
+titles = ["Cyberpunk 2077"]
+currency = "USD"
+max_price = "24.99"
+stores = ["1"]
+
+[[watches]]
 id = "elden-ring"
-name = "Elden Ring"
-target_price_usd = 34.99
+category = "games"
+enabled = true
+game_id = "234079"
+titles = ["Elden Ring"]
+currency = "USD"
+max_price = "34.99"
+stores = ["1"]
 
-[[games]]
-id = "cyberpunk-2077"
-name = "Cyberpunk 2077"
-target_price_usd = 24.99
-
-[[games]]
-id = "god-of-war-ragnarok"
-name = "God of War Ragnarok"
-target_price_usd = 39.99
-
-[[games]]
+[[watches]]
 id = "red-dead-redemption-2"
-name = "Red Dead Redemption 2"
-target_price_usd = 19.99
-
-[[games]]
-id = "monster-hunter-wilds"
-name = "Monster Hunter Wilds"
-target_price_usd = 49.99
-
-[[games]]
-id = "resident-evil-4-remake"
-name = "Resident Evil 4"
-target_price_usd = 19.99
-
-[[games]]
-id = "cyberpunk-2077"
-name = "Cyberpunk 2077"
-target_price_usd = 99.99
+category = "games"
+enabled = true
+game_id = "205047"
+titles = ["Red Dead Redemption 2"]
+currency = "USD"
+max_price = "19.99"
+stores = ["1"]
