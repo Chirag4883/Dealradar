@@ -198,7 +198,7 @@ enabled = true
 game_id = "2077"
 titles = ["Cyberpunk 2077"]
 currency = "USD"
-max_price = "24.99"
+max_price = "99.99"
 stores = ["1"]
 
 [[watches]]
