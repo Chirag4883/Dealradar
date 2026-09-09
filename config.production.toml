@@ -188,14 +188,14 @@ merchants = [
 ]
 
 # -----------------------------------------------------------
-# VIDEO GAMES (Steam Store ID: 1)
+# VIDEO GAMES (game_id is the official Steam App ID; Steam store ID: 1)
 # -----------------------------------------------------------
 
 [[watches]]
 id = "cyberpunk-2077"
 category = "games"
 enabled = true
-game_id = "214156"
+game_id = "1091500"
 titles = ["Cyberpunk 2077"]
 currency = "USD"
 max_price = "99.99"
@@ -205,7 +205,7 @@ stores = ["1"]
 id = "elden-ring"
 category = "games"
 enabled = true
-game_id = "244247"
+game_id = "1245620"
 titles = ["Elden Ring"]
 currency = "USD"
 max_price = "34.99"
@@ -215,7 +215,7 @@ stores = ["1"]
 id = "red-dead-redemption-2"
 category = "games"
 enabled = true
-game_id = "205128"
+game_id = "1174180"
 titles = ["Red Dead Redemption 2"]
 currency = "USD"
 max_price = "19.99"
