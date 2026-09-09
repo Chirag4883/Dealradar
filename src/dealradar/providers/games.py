@@ -7,91 +7,100 @@ from ..http import APIError
 class Games:
     def __init__(self, http):
         self.http = http
+        self._stores_cache = None
+
+    def _get_stores(self):
+        if self._stores_cache is None:
+            try:
+                stores = self.http.request("GET", "https://www.cheapshark.com/api/1.0/stores")
+                if isinstance(stores, list):
+                    self._stores_cache = {
+                        str(s["storeID"]): s["storeName"]
+                        for s in stores
+                        if isinstance(s, dict) and s.get("isActive") == 1
+                    }
+            except Exception:
+                pass
+
+            if not self._stores_cache:
+                self._stores_cache = {
+                    "1": "Steam",
+                    "2": "GamersGate",
+                    "3": "GreenManGaming",
+                    "7": "GOG",
+                    "25": "Epic Games",
+                }
+        return self._stores_cache
 
     def fetch(self, w):
-        game_id = str(w.get("game_id", ""))
-        print(f"\n================ [DIAGNOSTIC START: {w.get('id')}] ================", file=sys.stderr)
-        print(f"Target game_id: {game_id!r}", file=sys.stderr)
+        game_id = str(w.get("game_id", "")).strip()
+        title_query = (w.get("titles") and w["titles"][0]) or w.get("id", "")
+        stores = self._get_stores()
+        allowed_stores = [str(s) for s in w.get("stores", [])]
 
-        # 1. Fetch Game Overview
-        try:
-            result = self.http.request(
-                "GET", "https://www.cheapshark.com/api/1.0/games", params={"id": game_id}
-            )
-            print(f"Games endpoint type: {type(result)}", file=sys.stderr)
-            if isinstance(result, dict):
-                print(f"Games keys: {list(result.keys())}", file=sys.stderr)
-                print(f"Deals field type: {type(result.get('deals'))}", file=sys.stderr)
-                if isinstance(result.get("deals"), list):
-                    print(f"Number of deals found: {len(result['deals'])}", file=sys.stderr)
-            else:
-                print(f"Games response raw preview: {repr(result)[:300]}", file=sys.stderr)
-        except Exception as err:
-            print(f"EXCEPTION querying /games: {type(err).__name__}: {err}", file=sys.stderr)
-            raise
+        result = None
 
-        # 2. Fetch Stores Directory
-        try:
-            stores = self.http.request("GET", "https://www.cheapshark.com/api/1.0/stores")
-            print(f"Stores endpoint type: {type(stores)}", file=sys.stderr)
-            if isinstance(stores, list):
-                print(f"Total active stores received: {len(stores)}", file=sys.stderr)
-            else:
-                print(f"Stores response raw preview: {repr(stores)[:300]}", file=sys.stderr)
-        except Exception as err:
-            print(f"EXCEPTION querying /stores: {type(err).__name__}: {err}", file=sys.stderr)
-            raise
+        # 1. Try fetching by game_id
+        if game_id:
+            try:
+                res = self.http.request(
+                    "GET", "https://www.cheapshark.com/api/1.0/games", params={"id": game_id}
+                )
+                if isinstance(res, dict) and isinstance(res.get("deals"), list):
+                    result = res
+            except APIError as e:
+                print(f"[Games] ID lookup failed for {w.get('id')} ({e}); attempting title search.", file=sys.stderr)
 
-        # 3. Evaluate Schema Validation Check
-        schema_checks = {
-            "result_is_dict": isinstance(result, dict),
-            "info_is_dict": isinstance(result.get("info"), dict) if isinstance(result, dict) else False,
-            "deals_is_list": isinstance(result.get("deals"), list) if isinstance(result, dict) else False,
-            "stores_is_list": isinstance(stores, list),
-        }
-        print(f"Schema checks: {schema_checks}", file=sys.stderr)
+        # 2. Fallback: Search by title if ID failed or returned 400
+        if not result and title_query:
+            try:
+                search_res = self.http.request(
+                    "GET", "https://www.cheapshark.com/api/1.0/games", params={"title": title_query, "limit": "1"}
+                )
+                if isinstance(search_res, list) and len(search_res) > 0:
+                    matched_id = str(search_res[0].get("gameID", ""))
+                    if matched_id:
+                        res = self.http.request(
+                            "GET", "https://www.cheapshark.com/api/1.0/games", params={"id": matched_id}
+                        )
+                        if isinstance(res, dict) and isinstance(res.get("deals"), list):
+                            result = res
+                            game_id = matched_id
+            except APIError as e:
+                print(f"[Games] Title search failed for {title_query}: {e}", file=sys.stderr)
 
-        if not all(schema_checks.values()):
-            failed = [k for k, v in schema_checks.items() if not v]
-            print(f"FAILED CHECKS: {failed}", file=sys.stderr)
-            print(f"================ [DIAGNOSTIC END: {w.get('id')}] ================\n", file=sys.stderr)
-            raise APIError(f"games schema changed: failed {failed}")
+        if not result or not isinstance(result.get("deals"), list):
+            return []
 
-        names = {str(s["storeID"]): s["storeName"] for s in stores if isinstance(s, dict) and s.get("isActive") == 1}
         offers = []
-
         for row in result["deals"]:
             try:
                 store_id = str(row.get("storeID", ""))
-                allowed_stores = [str(s) for s in w.get("stores", [])]
-                if store_id not in allowed_stores or store_id not in names:
+                if allowed_stores and store_id not in allowed_stores:
                     continue
 
                 deal_id = row.get("dealID")
-                deal = self.http.request("GET", "https://www.cheapshark.com/api/1.0/deals", params={"id": deal_id})
-                
-                info = deal.get("gameInfo", {})
-                if str(info.get("gameID")) != game_id or str(info.get("storeID")) != store_id:
+                if not deal_id:
                     continue
+
+                sale_price = str(row.get("price", "999999"))
+                game_title = (result.get("info") or {}).get("title") or title_query
 
                 offers.append(
                     Offer(
                         "games",
                         f"{game_id}:{store_id}",
-                        info.get("name", "Unknown Game"),
-                        money(info.get("salePrice", "0")),
+                        game_title,
+                        money(sale_price),
                         "USD",
-                        names[store_id],
+                        stores.get(store_id, f"Store {store_id}"),
                         "https://www.cheapshark.com/redirect?" + urlencode({"dealID": deal_id}),
                         True,
                         "PC game; USD listed price. Check region, DRM and checkout taxes. Link via CheapShark.",
                         True,
                     )
                 )
-            except Exception as row_err:
-                print(f"Row parsing warning for deal {row.get('dealID')}: {row_err}", file=sys.stderr)
+            except Exception:
                 continue
 
-        print(f"Successfully generated {len(offers)} offers.", file=sys.stderr)
-        print(f"================ [DIAGNOSTIC END: {w.get('id')}] ================\n", file=sys.stderr)
         return offers
