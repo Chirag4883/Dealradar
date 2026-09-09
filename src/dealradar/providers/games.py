@@ -12,10 +12,9 @@ class Games:
         if self._stores_cache is None:
             stores = self.http.request("GET", "https://www.cheapshark.com/api/1.0/stores")
             if not isinstance(stores, list):
-                # Fallback mapping if stores API is rate-limited or blocked
                 return {"1": "Steam", "2": "GamersGate", "3": "GreenManGaming", "7": "GOG", "25": "Epic Games"}
             self._stores_cache = {
-                str(s["storeID"]): s["storeName"]
+                str(s.get("storeID")): s.get("storeName")
                 for s in stores
                 if isinstance(s, dict) and s.get("isActive") == 1
             }
@@ -30,20 +29,21 @@ class Games:
             "GET", "https://www.cheapshark.com/api/1.0/games", params={"id": game_id}
         )
 
-        # When game_id is invalid or empty, CheapShark returns [] instead of a dict
-        if not isinstance(result, dict) or "deals" not in result or not isinstance(result["deals"], list):
+        if not isinstance(result, dict):
+            return []
+
+        deals_list = result.get("deals")
+        if not isinstance(deals_list, list):
             return []
 
         names = self._get_stores()
         allowed_stores = [str(s) for s in w.get("stores", [])]
 
         offers = []
-        for row in result["deals"]:
+        for row in deals_list:
             try:
                 store_id = str(row.get("storeID", ""))
                 if allowed_stores and store_id not in allowed_stores:
-                    continue
-                if store_id not in names:
                     continue
 
                 deal_id = row.get("dealID")
@@ -58,15 +58,22 @@ class Games:
                     continue
 
                 info = deal["gameInfo"]
-                if str(info.get("gameID", "")) != game_id or str(info.get("storeID", "")) != store_id:
+                # Normalize both to string to avoid int vs str type inequality bugs
+                returned_game_id = str(info.get("gameID", ""))
+                returned_store_id = str(info.get("storeID", ""))
+
+                if returned_game_id != game_id or returned_store_id != store_id:
                     continue
+
+                sale_price = str(info.get("salePrice", "0"))
+                game_title = info.get("name") or (w.get("titles") and w["titles"][0]) or "Game Deal"
 
                 offers.append(
                     Offer(
                         "games",
                         f"{game_id}:{store_id}",
-                        info["name"],
-                        money(info["salePrice"]),
+                        game_title,
+                        money(sale_price),
                         "USD",
                         names.get(store_id, f"Store {store_id}"),
                         "https://www.cheapshark.com/redirect?" + urlencode({"dealID": deal_id}),
@@ -75,7 +82,7 @@ class Games:
                         True,
                     )
                 )
-            except (KeyError, TypeError, ValueError):
+            except Exception:
                 continue
 
         return offers
