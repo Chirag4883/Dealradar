@@ -170,7 +170,7 @@ def check(w, category):
         if w["currency"] != "USD":
             raise ConfigError("games watches must use currency USD; CheapShark lists USD prices")
         if not re.fullmatch(r"[0-9]+", text(w, "game_id", "game_id")):
-            raise ConfigError("game_id must be a numeric string; resolve it with CheapShark /games?title=")
+            raise ConfigError("game_id must be an official numeric Steam App ID string")
         strings(w.get("stores"), "stores")
         if any(not re.fullmatch(r"[0-9]+", x) for x in w["stores"]):
             raise ConfigError("each store must be a numeric CheapShark store ID string")
